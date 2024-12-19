@@ -1,8 +1,8 @@
 <script lang="ts">
 	import CalendarDropdown from '$lib/components/calendar-dropdown.svelte';
-	import OrbitViewer from '$lib/components/orbit-viewer.svelte';
 	import { type DateValue, today, getLocalTimeZone } from '@internationalized/date';
 	import type { NearEarthObjectsResponse, OrbitalData } from '$lib/types/nasa';
+	import SolarSystem from '$lib/components/solar-system/solar-system.svelte';
 
 	let date = $state<DateValue>(today(getLocalTimeZone()));
 	let nearEarthObjects = $state<NearEarthObjectsResponse | null>(null);
@@ -35,7 +35,9 @@
 	});
 </script>
 
-<header class="fixed top-0 flex w-screen flex-row items-center justify-between bg-black px-4 py-2">
+<header
+	class="fixed top-0 z-20 flex w-screen flex-row items-center justify-between bg-black px-4 py-2"
+>
 	<div>
 		<h1>Near earth objects</h1>
 	</div>
@@ -44,10 +46,10 @@
 	</div>
 </header>
 
-<main class="mt-16 flex h-screen w-screen">
+<main class="flex h-screen w-screen flex-row">
 	{#if nearEarthObjects}
-		<div class="flex w-full gap-4 p-4">
-			<div class="flex w-1/3 flex-col gap-4">
+		<div class="h-screen w-1/3 overflow-y-scroll">
+			<div class="mt-12 flex flex-col gap-4 p-4">
 				{#each Object.entries(nearEarthObjects.near_earth_objects) as [date, objects]}
 					{#each objects as object}
 						<button
@@ -63,17 +65,15 @@
 					{/each}
 				{/each}
 			</div>
-			<div class="flex w-2/3 flex-col gap-4">
-				{#if selectedOrbit}
-					<div class="h-full rounded-lg border p-4">
-						<OrbitViewer orbitalData={selectedOrbit} />
-					</div>
-				{:else}
-					<p>Select an asteroid to view orbital data</p>
-				{/if}
+		</div>
+		<div class="flex w-2/3 flex-col gap-4">
+			<div class="h-full w-full">
+				<SolarSystem {date} />
 			</div>
 		</div>
 	{:else}
-		<p>Loading...</p>
+		<div class="flex h-full w-full items-center justify-center">
+			<p>Loading...</p>
+		</div>
 	{/if}
 </main>
