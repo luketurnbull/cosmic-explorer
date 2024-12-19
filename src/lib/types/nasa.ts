@@ -1,9 +1,4 @@
 export interface NearEarthObjectsResponse {
-	links: {
-		next: string;
-		prev: string;
-		self: string;
-	};
 	element_count: number;
 	near_earth_objects: {
 		[date: string]: NearEarthObject[];
@@ -11,14 +6,8 @@ export interface NearEarthObjectsResponse {
 }
 
 export interface NearEarthObject {
-	links: {
-		self: string;
-	};
 	id: string;
-	neo_reference_id: string;
 	name: string;
-	nasa_jpl_url: string;
-	absolute_magnitude_h: number;
 	estimated_diameter: {
 		kilometers: EstimatedDiameter;
 		meters: EstimatedDiameter;
@@ -27,7 +16,6 @@ export interface NearEarthObject {
 	};
 	is_potentially_hazardous_asteroid: boolean;
 	close_approach_data: CloseApproachData[];
-	is_sentry_object: boolean;
 }
 
 interface EstimatedDiameter {
@@ -51,4 +39,19 @@ interface CloseApproachData {
 		miles: string;
 	};
 	orbiting_body: string;
+}
+
+export interface OrbitalData {
+	orbit_id: string;
+	eccentricity: string;
+	semi_major_axis: string;
+	inclination: string;
+	orbital_period: string;
+	perihelion_distance: string;
+	aphelion_distance: string;
+	orbit_class: {
+		orbit_class_type: string;
+		orbit_class_description: string;
+		orbit_class_range: string;
+	};
 }
