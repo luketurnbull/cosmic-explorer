@@ -43,7 +43,6 @@
 	"dependencies": {
 		"@tailwindcss/typography": "^0.5.15",
 		"@threlte/core": "next",
-		"@threlte/extras": "9.0.0-next.48",
-		"three": "^0.171.0"
+		"@threlte/extras": "9.0.0-next.48"
 	}
 }
