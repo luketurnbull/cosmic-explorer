@@ -33,6 +33,7 @@ export const GET: RequestHandler = async ({ url }) => {
 
 		return json(sanitizedData);
 	} catch (error) {
+		console.error(error);
 		return new Response(JSON.stringify({ error: 'Failed to fetch data' }), {
 			status: 500,
 			headers: {

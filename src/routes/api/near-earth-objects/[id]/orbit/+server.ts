@@ -1,6 +1,5 @@
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
-import type { OrbitalData } from '$lib/types/nasa';
 import { CelestialBody } from '$lib/types/nasa';
 
 export const GET: RequestHandler = async ({ params }) => {
@@ -32,6 +31,7 @@ export const GET: RequestHandler = async ({ params }) => {
 
 		return json(sanitizedOrbitalData);
 	} catch (error) {
+		console.error(error);
 		return new Response(JSON.stringify({ error: 'Failed to fetch orbital data' }), {
 			status: 500,
 			headers: {
