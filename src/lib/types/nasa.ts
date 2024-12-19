@@ -43,9 +43,13 @@ interface CloseApproachData {
 
 export interface OrbitalData {
 	orbit_id: string;
-	eccentricity: string;
 	semi_major_axis: string;
+	eccentricity: string;
 	inclination: string;
+	ascending_node_longitude: string;
+	perihelion_argument: string;
+	mean_anomaly: string;
+	epoch_osculation: string;
 	orbital_period: string;
 	perihelion_distance: string;
 	aphelion_distance: string;
