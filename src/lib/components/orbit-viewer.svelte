@@ -3,8 +3,10 @@
 	import * as THREE from 'three';
 	import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 	import type { OrbitalData } from '$lib/types/nasa';
+	import { CelestialBody } from '$lib/types/nasa';
 
 	const { orbitalData } = $props<{ orbitalData: OrbitalData }>();
+	const orbitingBody = $derived(orbitalData.orbiting_body as CelestialBody);
 
 	let container: HTMLDivElement;
 	let scene: THREE.Scene;
@@ -13,6 +15,39 @@
 	let controls: OrbitControls;
 	let orbitLine: THREE.Line;
 	let asteroidMesh: THREE.Mesh;
+	let centralBody: THREE.Mesh;
+
+	const CELESTIAL_BODY_PROPERTIES = {
+		[CelestialBody.Sun]: {
+			color: 0xffff00,
+			size: 5,
+			scale: 100
+		},
+		[CelestialBody.Earth]: {
+			color: 0x0077ff,
+			size: 3,
+			scale: 20
+		},
+		[CelestialBody.Mars]: {
+			color: 0xff4400,
+			size: 2.5,
+			scale: 15
+		},
+		[CelestialBody.Venus]: {
+			color: 0xffd700,
+			size: 2.8,
+			scale: 18
+		},
+		[CelestialBody.Jupiter]: {
+			color: 0xffa500,
+			size: 8,
+			scale: 200
+		}
+	};
+
+	function getScaleFactor() {
+		return CELESTIAL_BODY_PROPERTIES[orbitingBody].scale;
+	}
 
 	function calculatePosition(meanAnomaly: number): THREE.Vector3 {
 		const a = parseFloat(orbitalData.semi_major_axis);
@@ -22,17 +57,14 @@
 		const Omega = (parseFloat(orbitalData.ascending_node_longitude) * Math.PI) / 180;
 		const M = (meanAnomaly * Math.PI) / 180;
 
-		// Solve Kepler's equation iteratively
-		let E = M; // Initial guess for eccentric anomaly
+		let E = M;
 		for (let iter = 0; iter < 10; iter++) {
 			E = M + e * Math.sin(E);
 		}
 
-		// Calculate position in orbital plane
 		const x = a * (Math.cos(E) - e);
 		const y = a * Math.sqrt(1 - e * e) * Math.sin(E);
 
-		// Apply rotations
 		const xomega = x * Math.cos(omega) - y * Math.sin(omega);
 		const yomega = x * Math.sin(omega) + y * Math.cos(omega);
 
@@ -42,7 +74,7 @@
 		const xfinal = xomega * Math.cos(Omega) - yinc * Math.sin(Omega);
 		const yfinal = xomega * Math.sin(Omega) + yinc * Math.cos(Omega);
 
-		const scale = 100;
+		const scale = getScaleFactor();
 		return new THREE.Vector3(xfinal * scale, yfinal * scale, z * scale);
 	}
 
@@ -76,11 +108,17 @@
 		return points;
 	}
 
-	function updateOrbit() {
-		if (!scene || !orbitLine || !asteroidMesh) return;
+	function updateScene() {
+		if (!scene || !orbitLine || !asteroidMesh || !centralBody) return;
 
-		scene.remove(orbitLine);
-		scene.remove(asteroidMesh);
+		scene.remove(orbitLine, asteroidMesh, centralBody);
+
+		// Update central body
+		const bodyProps = CELESTIAL_BODY_PROPERTIES[orbitingBody];
+		const bodyGeometry = new THREE.SphereGeometry(bodyProps.size, 32, 32);
+		const bodyMaterial = new THREE.MeshBasicMaterial({ color: bodyProps.color });
+		centralBody = new THREE.Mesh(bodyGeometry, bodyMaterial);
+		scene.add(centralBody);
 
 		// Update orbit line
 		const orbitPoints = generateOrbitPoints();
@@ -168,7 +206,7 @@
 
 	$effect(() => {
 		if (scene && orbitalData) {
-			updateOrbit();
+			updateScene();
 		}
 	});
 </script>

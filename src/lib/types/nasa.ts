@@ -41,6 +41,14 @@ interface CloseApproachData {
 	orbiting_body: string;
 }
 
+export enum CelestialBody {
+	Sun = 'SUN',
+	Earth = 'EARTH',
+	Mars = 'MARS',
+	Venus = 'VENUS',
+	Jupiter = 'JUPITER'
+}
+
 export interface OrbitalData {
 	orbit_id: string;
 	semi_major_axis: string;
@@ -58,4 +66,5 @@ export interface OrbitalData {
 		orbit_class_description: string;
 		orbit_class_range: string;
 	};
+	orbiting_body: CelestialBody;
 }
