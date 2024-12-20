@@ -3,7 +3,7 @@ import { PLANETS } from './planets';
 
 const AU_TO_KM = 149597870.7; // 1 AU in kilometers
 
-interface Vector3 {
+export interface Vector3 {
 	x: number;
 	y: number;
 	z: number;
@@ -104,7 +104,7 @@ export class PlanetCalculator {
 	 * @param {number} orbitPoints - Number of points per orbit
 	 * @returns {PlanetData[]} Complete planetary system data
 	 */
-	static calculateSolarSystem(date: Date, orbitPoints: number = 100): PlanetData[] {
+	static calculateSolarSystem(date: Date, orbitPoints: number = 200): PlanetData[] {
 		const planets = this.calculatePlanetPositions(date);
 
 		// Add orbit points to each planet

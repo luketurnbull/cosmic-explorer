@@ -42,8 +42,7 @@
 	},
 	"dependencies": {
 		"@tailwindcss/typography": "^0.5.15",
-		"@threlte/core": "next",
-		"@threlte/extras": "9.0.0-next.48",
-		"astronomy-engine": "^2.1.19"
+		"astronomy-engine": "^2.1.19",
+		"three": "^0.171.0"
 	}
 }

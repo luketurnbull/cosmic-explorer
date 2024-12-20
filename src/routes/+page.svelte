@@ -3,7 +3,6 @@
 	import { type DateValue, today, getLocalTimeZone } from '@internationalized/date';
 	import type { NearEarthObjectsResponse, OrbitalData } from '$lib/types/nasa';
 	import SolarSystem from '$lib/components/solar-system/solar-system.svelte';
-	import { PlanetCalculator } from '$lib/utils/planet-calculator';
 
 	let date = $state<DateValue>(today(getLocalTimeZone()));
 	let nearEarthObjects = $state<NearEarthObjectsResponse | null>(null);
