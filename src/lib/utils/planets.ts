@@ -1,29 +1,32 @@
+import { Body } from 'astronomy-engine';
+
 export const PLANETS = [
-	'mercury',
-	'venus',
-	'earth',
-	'mars',
-	'jupiter',
-	'saturn',
-	'uranus',
-	'neptune'
-] as const;
+	Body.Mercury,
+	Body.Venus,
+	Body.Earth,
+	Body.Mars,
+	Body.Jupiter,
+	Body.Saturn,
+	Body.Uranus,
+	Body.Neptune
+];
 
 export type Planet = (typeof PLANETS)[number];
 
 export interface PlanetData {
-	name: Planet;
+	name: string;
 	color: string;
-	size: number; // Relative size for visualization
+	size: number;
 }
 
 export const PLANET_DETAILS: Record<Planet, PlanetData> = {
-	mercury: { name: 'mercury', color: '#A0522D', size: 0.383 },
-	venus: { name: 'venus', color: '#DEB887', size: 0.949 },
-	earth: { name: 'earth', color: '#4B0082', size: 1 },
-	mars: { name: 'mars', color: '#CD5C5C', size: 0.532 },
-	jupiter: { name: 'jupiter', color: '#DAA520', size: 11.21 },
-	saturn: { name: 'saturn', color: '#F4A460', size: 9.45 },
-	uranus: { name: 'uranus', color: '#87CEEB', size: 4.01 },
-	neptune: { name: 'neptune', color: '#1E90FF', size: 3.88 }
+	Mercury: { name: 'Mercury', color: '#A0522D', size: 0.383 },
+	Venus: { name: 'Venus', color: '#DEB887', size: 0.949 },
+	Earth: { name: 'Earth', color: '#4B0082', size: 1 },
+	Mars: { name: 'Mars', color: '#CD5C5C', size: 0.532 },
+	Jupiter: { name: 'Jupiter', color: '#DAA520', size: 11.21 },
+	Saturn: { name: 'Saturn', color: '#F4A460', size: 9.45 },
+	Uranus: { name: 'Uranus', color: '#87CEEB', size: 4.01 },
+	Neptune: { name: 'Neptune', color: '#1E90FF', size: 3.88 },
+	Sun: { name: 'Sun', color: '#FDB813', size: 109.17 }
 };
